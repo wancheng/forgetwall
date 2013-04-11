@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+  <ul class="archive">
+    {% for entry in entries %}
+      <li>
+        <div class="title"><a href="/entry/{{ entry.slug }}">{{ entry.title }}</a></div>
+        <div class="date">{{ locale.format_date(entry.published, full_format=True, shorter=True) }}</div>
+      </li>
+    {% end %}
+  </ul>
+{% end %}

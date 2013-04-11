@@ -1,0 +1,9 @@
+<h6><a href="/entry/{{ entry.slug }}">{{ entry.title }}</a></h6>
+{{ locale.format_date(entry.published, full_format=True, shorter=True) }}
+<br/>
+{% raw entry.html %}
+{% if current_user %}
+<a href="/compose?id={{ entry.id }}">{{ _("Edit this post") }}</a>
+{% end %}
+<br/>
+<hr>

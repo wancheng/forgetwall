@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{{ escape(handler.settings["blog_title"]) }}</title>
+
+    <!-- Framework CSS -->
+    <link rel="stylesheet" href="{{ static_url("blueprint/screen.css") }}" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="{{ static_url("blueprint/print.css") }}" type="text/css" media="print">
+    <!--[if lt IE 8]><link rel="stylesheet" href="{{ static_url("blueprint/ie.css") }}" type="text/css" media="screen, projection"><![endif]-->
+
+    <!-- Import fancy-type plugin for the sample page. -->
+    <link rel="stylesheet" href="{{ static_url("blueprint/plugins/fancy-type/screen.css") }}" type="text/css" media="screen, projection">
+	<link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["blog_title"]) }}"/>
+  </head>
+  <body>
+    <div class="container">
+	  <br />
+      <h1>Forget Wall - for our forget</h1>
+      <hr>      
+      <hr>
+      <hr class="space">
+      <div class="span-17 colborder" id="content">
+      {% block body %}{% end %}
+        <hr>
+       
+      </div>
+     <div class="span-6 last" id="sidebar">
+        <h3 class="caps">Navigator</h3>
+        {% if current_user %}
+            <a href="/compose">{{ _("New post") }}</a> -
+            <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
+          {% else %}
+            {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/auth/login?next=" + url_escape(request.uri)} }}
+          {% end %}
+      </div>
+      <hr>
+      
+      <hr>
+      
+    </div>
+  </body>
+</html>
