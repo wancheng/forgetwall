@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <form action="{{ request.path }}" method="post" class="compose">
+	  name:<input type="text" name="name" /></br>
+	  password:<input type="password" name="password" /></br>
+	  <input type="submit" />
+	  {% raw xsrf_form_html() %}
+  </form>
+{% end %}
+
+{% block bottom %}
+{% end %}
