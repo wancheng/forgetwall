@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="{{ static_url("highlight.js/styles/zenburn.css") }}" >
 	<script src="{{ static_url("highlight.js/highlight.pack.js") }}" ></script>
 	<script> hljs.initHighlightingOnLoad();</script>
-
+	<script src="{{ static_url("showdown.js") }}" ></script>
     <!--[if lt IE 8]><link rel="stylesheet" href="{{ static_url("blueprint/ie.css") }}" type="text/css" media="screen, projection"><![endif]-->
 
     <!-- Import fancy-type plugin for the sample page. -->
@@ -39,7 +39,7 @@
             <a href="/compose">{{ _("New post") }}</a> -
             <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
           {% else %}
-            {{ _('<a href="%(url)s">Sign in</a> to compose/edit') % {"url": "/auth/login?next=" + url_escape(request.uri)} }}
+            <a href="/auth/login">Sign in</a>
           {% end %}
 		</div>
       </div>

@@ -1,20 +1,5 @@
 #!/usr/bin/env python
-#
-# Copyright 2009 Facebook
-#
-# Licensed under the Apache License, Version 2.0 (the "License"); you may
-# not use this file except in compliance with the License. You may obtain
-# a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-# License for the specific language governing permissions and limitations
-# under the License.
 
-import markdown
 import os.path
 import re
 import torndb
@@ -51,7 +36,7 @@ class Application(tornado.web.Application):
             static_path=os.path.join(os.path.dirname(__file__), "static"),
             ui_modules={"Entry": EntryModule},
             xsrf_cookies=True,
-            cookie_secret="__TODO:_GENERATE_YOUR_OWN_RANDOM_VALUE_HERE__",
+            cookie_secret="www_forgerwall_com",
             login_url="/auth/login",
             debug=True,
         )
@@ -69,7 +54,7 @@ class BaseHandler(tornado.web.RequestHandler):
         return self.application.db
 
     def get_current_user(self):
-        user_id = self.get_secure_cookie("blogdemo_user")
+        user_id = self.get_secure_cookie("www_forgetwall_com_user")
         if not user_id: return None
         return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
 
@@ -78,9 +63,6 @@ class HomeHandler(BaseHandler):
     def get(self):
         entries = self.db.query("SELECT * FROM entries ORDER BY published "
                                 "DESC LIMIT 5")
-        if not entries:
-            self.redirect("/compose")
-            return
         self.render("home.html", entries=entries)
 
 
@@ -120,7 +102,8 @@ class ComposeHandler(BaseHandler):
         id = self.get_argument("id", None)
         title = self.get_argument("title")
         text = self.get_argument("markdown")
-        html = markdown.markdown(text)
+        html = self.get_argument("html")
+        # html = markdown.markdown(text)
         if id:
             entry = self.db.get("SELECT * FROM entries WHERE id = %s", int(id))
             if not entry: raise tornado.web.HTTPError(404)
@@ -145,38 +128,32 @@ class ComposeHandler(BaseHandler):
         self.redirect("/entry/" + slug)
 
 
-class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument("openid.mode", None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authenticate_redirect()
-
-    def _on_auth(self, user):
-        if not user:
-            raise tornado.web.HTTPError(500, "Google auth failed")
-        author = self.db.get("SELECT * FROM authors WHERE email = %s",
-                             user["email"])
-        if not author:
-            # Auto-create first author
-            any_author = self.db.get("SELECT * FROM authors LIMIT 1")
-            if not any_author:
-                author_id = self.db.execute(
-                    "INSERT INTO authors (email,name) VALUES (%s,%s)",
-                    user["email"], user["name"])
-            else:
-                self.redirect("/")
-                return
-        else:
-            author_id = author["id"]
-        self.set_secure_cookie("blogdemo_user", str(author_id))
-        self.redirect(self.get_argument("next", "/"))
+# class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
+class AuthLoginHandler(BaseHandler):
+	def get(self):
+		if self.current_user:
+			self.redirect(self.reverse_url('/'))
+		else:
+			self.render('login.html')
+	
+	def post(self):
+		name = self.get_argument("name")
+		password = self.get_argument("password")
+		author = self.db.get("SELECT * FROM authors WHERE name = %s AND password = %s",
+			name,password)
+		if not author:
+			self.redirect("/")
+		else:
+			author_id = author["id"]
+			print author_id
+			self.set_secure_cookie("www_forgetwall_com_user", str(author_id))
+			self.redirect(self.get_argument("next", "/"))
 
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
-        self.clear_cookie("blogdemo_user")
+        print "==: logout"
+        self.clear_cookie("www_forgetwall_com_user")
         self.redirect(self.get_argument("next", "/"))
 
 
