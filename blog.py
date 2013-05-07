@@ -20,32 +20,33 @@ define("mysql_password", default="blog", help="blog database password")
 
 
 class Application(tornado.web.Application):
-    def __init__(self):
-        handlers = [
-            (r"/", HomeHandler),
-            (r"/archive", ArchiveHandler),
-            (r"/feed", FeedHandler),
-            (r"/entry/([^/]+)", EntryHandler),
-            (r"/compose", ComposeHandler),
-            (r"/auth/login", AuthLoginHandler),
-            (r"/auth/logout", AuthLogoutHandler),
-        ]
-        settings = dict(
-            blog_title=u"Forgetwall",
-            template_path=os.path.join(os.path.dirname(__file__), "templates"),
-            static_path=os.path.join(os.path.dirname(__file__), "static"),
-            ui_modules={"Entry": EntryModule},
-            xsrf_cookies=True,
-            cookie_secret="www_forgerwall_com",
-            login_url="/auth/login",
-            debug=True,
-        )
-        tornado.web.Application.__init__(self, handlers, **settings)
+	def __init__(self):
+		handlers = [
+			(r"/", HomeHandler),
+			(r"/archive", ArchiveHandler),
+			(r"/feed", FeedHandler),
+			(r"/entry/([^/]+)", EntryHandler),
+			(r"/compose", ComposeHandler),
+			(r"/auth/login", AuthLoginHandler),
+			(r"/auth/logout", AuthLogoutHandler),
+			(r"/registe",RegisteHandler)
+		]
+		settings = dict(
+			blog_title=u"Forgetwall",
+			template_path=os.path.join(os.path.dirname(__file__), "templates"),
+			static_path=os.path.join(os.path.dirname(__file__), "static"),
+			ui_modules={"Entry": EntryModule},
+			xsrf_cookies=True,
+			cookie_secret="www_forgerwall_com",
+			login_url="/auth/login",
+			debug=True,
+		)
+		tornado.web.Application.__init__(self, handlers, **settings)
 
-        # Have one global connection to the blog DB across all handlers
-        self.db = torndb.Connection(
-            host=options.mysql_host, database=options.mysql_database,
-            user=options.mysql_user, password=options.mysql_password)
+		# Have one global connection to the blog DB across all handlers
+		self.db = torndb.Connection(
+			host=options.mysql_host, database=options.mysql_database,
+			user=options.mysql_user, password=options.mysql_password)
 
 
 class BaseHandler(tornado.web.RequestHandler):
@@ -64,6 +65,20 @@ class HomeHandler(BaseHandler):
         entries = self.db.query("SELECT * FROM entries ORDER BY published "
                                 "DESC LIMIT 5")
         self.render("home.html", entries=entries)
+
+class RegisteHandler(BaseHandler):
+	def get(self):
+		open_registe = self.db.query("SELECT mvalue FROM maps WHERE mkey = 'registe'")
+		if open_registe == "off":
+			self.redirect("/")
+		self.render("registe.html")
+	def post(self):
+		name = self.get_argument("name")
+		password = self.get_argument("password")
+		email = self.get_argument("email")
+		self.db.execute("INSERT INTO authors (name,password,email) VALUES (%s,%s,%s)"
+				,name,password,email)
+		self.redirect("/auth/login")
 
 
 class EntryHandler(BaseHandler):
@@ -152,7 +167,6 @@ class AuthLoginHandler(BaseHandler):
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
-        print "==: logout"
         self.clear_cookie("www_forgetwall_com_user")
         self.redirect(self.get_argument("next", "/"))
 

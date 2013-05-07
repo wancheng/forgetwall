@@ -4,8 +4,9 @@
   <form action="{{ request.path }}" method="post" class="compose">
 	  name:<input type="text" name="name" /></br>
 	  password:<input type="password" name="password" /></br>
-	  <input type="submit" value="login"/>
+	  email:<input type="text" name="email" /></br>
 	  {% raw xsrf_form_html() %}
+	  <input type="submit" value="registe"/>
   </form>
 {% end %}
 

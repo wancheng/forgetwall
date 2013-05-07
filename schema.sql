@@ -40,5 +40,13 @@ DROP TABLE IF EXISTS authors;
 CREATE TABLE authors (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+	password VARCHAR(18) NOT NULL
 );
+DROP TABLE IF EXISTS maps;
+CREATE TABLE maps (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	mkey VARCHAR(20) NOT NULL UNIQUE,
+	mvalue VARCHAR(20) NOT NULL
+);
+insert into maps (mkey,mvalue) values ("registe","on");
