@@ -32,16 +32,36 @@
       </div>
      <div class="span-6 last" id="sidebar">
         <h3 class="caps">Navigator</h3>
-		 <div class="box"> 
+		 <div class="dashedbox"> 
         {% if current_user %}
             <a href="/compose">{{ _("New post") }}</a> -
             <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
           {% else %}
             <a href="/auth/login">Sign in</a>
+			<!--
+			<br />
 			<a href="/registe">registe</a>
+			-->
           {% end %}
 		</div>
       </div>
+	<div class="span-6 last">
+		<h3 class="caps">Recent</h3>
+		<div class="dashedbox">
+		</div>
+	</div>
+	<div class="span-6 last">
+		<h3 class="caps">Tag</h3>
+		<div class="dashedbox">
+		</div>
+	</div>
+	<div class="span-6 last">
+		<h3 class="caps">Archive</h3>
+		<div class="dashedbox">
+		</div>
+	</div>
+      <hr>
+      <hr>
       <hr>
     </div>
   </body>

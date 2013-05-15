@@ -1,6 +1,6 @@
 <h3 class="loud"><a href="/entry/{{ entry.slug }}">{{ entry.title }}</a></h3>
-{{ locale.format_date(entry.published, full_format=True, shorter=True) }}
-<br/>
+{{ locale.format_date(entry.published, full_format=True, shorter=True) }} by {{ entry.name }}
+<br /><br/>
 {% raw entry.html %}
 {% if current_user %}
 <a href="/compose?id={{ entry.id }}">{{ _("Edit this post") }}</a>

@@ -9,6 +9,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import unicodedata
+import logging
 
 from tornado.options import define, options
 
@@ -62,7 +63,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
-        entries = self.db.query("SELECT * FROM entries ORDER BY published "
+        entries = self.db.query("SELECT a.*,b.name FROM entries AS a, authors AS b WHERE a.author_id = b.id ORDER BY a.published "
                                 "DESC LIMIT 5")
         self.render("home.html", entries=entries)
 
@@ -82,10 +83,12 @@ class RegisteHandler(BaseHandler):
 
 
 class EntryHandler(BaseHandler):
-    def get(self, slug):
-        entry = self.db.get("SELECT * FROM entries WHERE slug = %s", slug)
-        if not entry: raise tornado.web.HTTPError(404)
-        self.render("entry.html", entry=entry)
+	def get(self, slug):
+		entry = self.db.get("SELECT a.*,b.name FROM entries AS a ,authors AS b WHERE a.author_id = b.id AND slug = %s", slug)
+		if not entry: raise tornado.web.HTTPError(404)
+		author = self.db.get("SELECT * FROM authors WHERE id = %s",int(entry.author_id))
+		entry.username = author.name
+		self.render("entry.html", entry=entry)
 
 
 class ArchiveHandler(BaseHandler):
@@ -177,10 +180,10 @@ class EntryModule(tornado.web.UIModule):
 
 
 def main():
-    tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(Application())
-    http_server.listen(options.port)
-    tornado.ioloop.IOLoop.instance().start()
+	tornado.options.parse_command_line()
+	http_server = tornado.httpserver.HTTPServer(Application())
+	http_server.listen(options.port)
+	tornado.ioloop.IOLoop.instance().start()
 
 
 if __name__ == "__main__":
