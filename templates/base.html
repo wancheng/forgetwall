@@ -10,19 +10,22 @@
     <!-- Framework CSS -->
     <link rel="stylesheet" href="{{ static_url("blueprint/screen.css") }}" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="{{ static_url("blueprint/print.css") }}" type="text/css" media="print">
+	<link rel="stylesheet" href="{{ static_url("epiceditor/themes/preview/github.css") }}" type="text/css" />
 	<!-- highlight.js -->
 	<link rel="stylesheet" href="{{ static_url("highlight.js/styles/github.css") }}" >
 	<script src="{{ static_url("highlight.js/highlight.pack.js") }}" ></script>
 	<script> hljs.initHighlightingOnLoad();</script>
-	<script src="{{ static_url("showdown/showdown.js") }}" ></script>
-    <!--[if lt IE 8]><link rel="stylesheet" href="{{ static_url("blueprint/ie.css") }}" type="text/css" media="screen, projection"><![endif]-->
+-->
 
-    <!-- Import fancy-type plugin for the sample page. -->
+	<script src="{{ static_url("epiceditor/js/prettify.js") }}"></script>
+	<script src="{{ static_url("epiceditor/js/epiceditor.min.js") }}"></script>
+	
+    <!--[if lt IE 8]><link rel="stylesheet" href="{{ static_url("blueprint/ie.css") }}" type="text/css" media="screen, projection"><![endif]-->
+    <!-- Import fancy-type plugin for the sample page. 
     <link rel="stylesheet" href="{{ static_url("blueprint/plugins/fancy-type/screen.css") }}" type="text/css" media="screen, projection">
 	<link rel="alternate" href="/feed" type="application/atom+xml" title="{{ escape(handler.settings["blog_title"]) }}"/>
 	<link href="http://fonts.googleapis.com/css?family=Alice&subset=latin" rel="stylesheet" type="text/css">
-
-</style>
+-->
   </head>
   <body style="font-family: 'Alice', sans-serif;">
     <div class="container">
