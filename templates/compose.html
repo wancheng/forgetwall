@@ -25,9 +25,7 @@
 	var editor = new EpicEditor(opts).load();
 	
 	document.getElementById("test").addEventListener("click",function(event){
-		//alert(editor.getElement('editor').body.innerHTML);
-		//console.log("test");
-		//console.log(editor.getElement('previewer').body.innerHTML);
+		editor.preview();
 		document.getElementById("markdown").value = editor.getFiles("forgetwall").content;
 		document.getElementById("html").value=editor.getElement("previewer").body.innerHTML;
 		document.forms[0].submit();
