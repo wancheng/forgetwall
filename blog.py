@@ -39,7 +39,7 @@ class Application(tornado.web.Application):
 			template_path=os.path.join(os.path.dirname(__file__), "templates"),
 			static_path=os.path.join(os.path.dirname(__file__), "static"),
 			ui_modules={"Entry": EntryModule},
-			xsrf_cookies=True,
+			xsrf_cookies=False,
 			cookie_secret="www_forgerwall_com",
 			login_url="/auth/login",
 			debug=True,
@@ -177,7 +177,8 @@ class WeixinHandler(BaseHandler):
 		echostr = self.get_argument("echostr")
 		if verification(self) and echostr is not None:
 			self.write(echostr)
-		self.write("access fail")
+		else:
+			self.write("access fail")
 
 	def post(self):
 		if verification(self):
@@ -213,13 +214,14 @@ def verification(self):
     signature = self.get_argument('signature')
     timestamp = self.get_argument('timestamp')
     nonce = self.get_argument('nonce')
-
-    token = 'wancheng'
+    logging.error("=======") 
+    logging.error(signature)
+    token = "wancheng"
     tmplist = [token, timestamp, nonce]
     tmplist.sort()
     tmpstr = ''.join(tmplist)
     hashstr = hashlib.sha1(tmpstr).hexdigest()
-
+    logging.error(hashstr)
     if hashstr == signature:
         return True
     return False
