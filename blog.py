@@ -184,6 +184,7 @@ class WeixinHandler(BaseHandler):
 			data = self.request.body
 			print(data)
 			msg = parse_msg(data)
+			print("===:"+data)
 			if user_subscribe_event(msg):
 				self.write(help_info(msg))
 			elif is_text_msg(msg):
