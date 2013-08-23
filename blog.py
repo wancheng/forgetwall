@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-  
 import os.path
 import re
 import torndb
@@ -10,6 +10,7 @@ import tornado.options
 import tornado.web
 import unicodedata
 import logging
+import hashlib
 
 from tornado.options import define, options
 
@@ -31,7 +32,7 @@ class Application(tornado.web.Application):
 			(r"/auth/login", AuthLoginHandler),
 			(r"/auth/logout", AuthLogoutHandler),
 			(r"/registe",RegisteHandler),
-			(r"/weixin/join",WeixinHandler)
+			(r"/weixin",WeixinHandler)
 		]
 		settings = dict(
 			blog_title=u"Forgetwall",
@@ -174,8 +175,28 @@ class WeixinHandler(BaseHandler):
 		timestamp = self.get_argument("timestamp")
 		nonce = self.get_argument("nonce")
 		echostr = self.get_argument("echostr")
+		if verification(self) and echostr is not None:
+			self.write(echostr)
+		self.write("access fail")
 
-		self.write(echostr)
+	def post(self):
+		if verification(self):
+			data = self.request.body
+			print(data)
+			msg = parse_msg(data)
+			if user_subscribe_event(msg):
+				self.write(help_info(msg))
+			elif is_text_msg(msg):
+				content = msg['Content']
+				if content == u'?' or content == u'？':
+					self.write(help_info(msg))
+				else:
+					books = search_book(content)
+					rmsg = response_news_msg(msg, books)
+					return rmsg
+		return 'message processing fail'
+
+
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
@@ -186,6 +207,45 @@ class AuthLogoutHandler(BaseHandler):
 class EntryModule(tornado.web.UIModule):
     def render(self, entry):
         return self.render_string("modules/entry.html", entry=entry)
+	
+def verification(self):
+    signature = self.get_argument('signature')
+    timestamp = self.get_argument('timestamp')
+    nonce = self.get_argument('nonce')
+
+    token = 'wancheng'
+    tmplist = [token, timestamp, nonce]
+    tmplist.sort()
+    tmpstr = ''.join(tmplist)
+    hashstr = hashlib.sha1(tmpstr).hexdigest()
+
+    if hashstr == signature:
+        return True
+    return False
+
+def user_subscribe_event(msg):
+    return msg['MsgType'] == 'event' and msg['Event'] == 'subscribe'
+
+def help_info(msg):
+    return response_text_msg(msg, HELP_INFO)
+
+TEXT_MSG_TPL = \
+u"""
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[%s]]></Content>
+<FuncFlag>0</FuncFlag>
+</xml>
+"""
+
+def response_text_msg(msg, content):
+    s = TEXT_MSG_TPL % (msg['FromUserName'], msg['ToUserName'], 
+        str(int(time.time())), content)
+    return s
+
 
 
 def main():
