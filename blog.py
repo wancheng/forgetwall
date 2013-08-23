@@ -30,7 +30,8 @@ class Application(tornado.web.Application):
 			(r"/compose", ComposeHandler),
 			(r"/auth/login", AuthLoginHandler),
 			(r"/auth/logout", AuthLogoutHandler),
-			(r"/registe",RegisteHandler)
+			(r"/registe",RegisteHandler),
+			(r"/weixin/join",WeixinHandler)
 		]
 		settings = dict(
 			blog_title=u"Forgetwall",
@@ -167,6 +168,14 @@ class AuthLoginHandler(BaseHandler):
 			self.set_secure_cookie("www_forgetwall_com_user", str(author_id))
 			self.redirect(self.get_argument("next", "/"))
 
+class WeixinHandler(BaseHandler):
+	def get(self):
+		signature = self.get_argument("signature")
+		timestamp = self.get_argument("timestamp")
+		nonce = self.get_argument("nonce")
+		echostr = self.get_argument("echostr")
+
+		self.write(echostr)
 
 class AuthLogoutHandler(BaseHandler):
     def get(self):
