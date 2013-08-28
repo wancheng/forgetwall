@@ -199,7 +199,7 @@ class WeixinHandler(BaseHandler):
 					# books = search_book(content)
 					# rmsg = response_news_msg(msg, books)
 					# return rmsg
-					self.write(response_text_msg(msg,"I'm sorry!")
+					self.write(response_text_msg(msg,"I'm sorry!"))
 		self.write('message processing fail')
 
 
