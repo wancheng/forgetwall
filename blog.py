@@ -228,7 +228,6 @@ def verification(self):
     return False
 
 def user_subscribe_event(msg):
-    logging.error("==msgtype:"+msg['MsgType'])
     return msg['MsgType'] == 'event' and msg['Event'] == 'subscribe'
 
 HELP_TPL = \
@@ -242,11 +241,27 @@ u"""
 </Articles>
 </xml>
 """
-
+HELPINFO_TPL = \
+u"""
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<ArticleCount>1</ArticleCount>
+<Articles>
+<item>
+<Title><![CDATA[%s]]></Title> 
+<Description><![CDATA[%s]]></Description>
+<PicUrl><![CDATA[%s]]></PicUrl>
+<Url><![CDATA[%s]]></Url>
+</item>
+</Articles>
+</xml> 
+"""
 def help_info(msg):
-    msgHeader = NEWS_MSG_HEADER_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),1)
-    msgbody = HELP_TPL % ("help","some help","http://www.baidu.com/img/baidu_jgylogo3.gif","http://www.baidu.com")   
-    return msgHeader+msgbody
+    helpinfo = HELPINFO_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),"help","some help","http://www.baidu.com/img/baidu_jgylogo3.gif","http://www.baidu.com")   
+    return helpinfo
 
 TEXT_MSG_TPL = \
 u"""
