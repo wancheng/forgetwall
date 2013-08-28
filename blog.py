@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-  
 import os.path
 import re
+import time
 import torndb
 import tornado.auth
 import tornado.httpserver
@@ -11,6 +12,7 @@ import tornado.web
 import unicodedata
 import logging
 import hashlib
+import xml.etree.ElementTree as ET
 
 from tornado.options import define, options
 
@@ -183,20 +185,22 @@ class WeixinHandler(BaseHandler):
 	def post(self):
 		if verification(self):
 			data = self.request.body
-			print(data)
+			logging.error("==data=:\n"+data)
 			msg = parse_msg(data)
-			print("===:"+data)
 			if user_subscribe_event(msg):
+				helpinfo = help_info(msg)
+				logging.error("help:\n"+helpinfo)
 				self.write(help_info(msg))
 			elif is_text_msg(msg):
 				content = msg['Content']
 				if content == u'?' or content == u'？':
 					self.write(help_info(msg))
 				else:
-					books = search_book(content)
-					rmsg = response_news_msg(msg, books)
-					return rmsg
-		return 'message processing fail'
+					# books = search_book(content)
+					# rmsg = response_news_msg(msg, books)
+					# return rmsg
+					self.write("server:"+content)
+		self.write('message processing fail')
 
 
 
@@ -214,23 +218,35 @@ def verification(self):
     signature = self.get_argument('signature')
     timestamp = self.get_argument('timestamp')
     nonce = self.get_argument('nonce')
-    logging.error("=======") 
-    logging.error(signature)
     token = "wancheng"
     tmplist = [token, timestamp, nonce]
     tmplist.sort()
     tmpstr = ''.join(tmplist)
     hashstr = hashlib.sha1(tmpstr).hexdigest()
-    logging.error(hashstr)
     if hashstr == signature:
         return True
     return False
 
 def user_subscribe_event(msg):
+    logging.error("==msgtype:"+msg['MsgType'])
     return msg['MsgType'] == 'event' and msg['Event'] == 'subscribe'
 
+HELP_TPL = \
+u"""
+<item>
+<Title><![CDATA[%s]]></Title>
+<Description><![CDATA[%s]]></Description>
+<PicUrl><![CDATA[%s]]></PicUrl>
+<Url><![CDATA[%s]]></Url>
+</item>
+</Articles>
+</xml>
+"""
+
 def help_info(msg):
-    return response_text_msg(msg, HELP_INFO)
+    msgHeader = NEWS_MSG_HEADER_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),1)
+    msgbody = HELP_TPL % ("help","some help","http://www.baidu.com/img/baidu_jgylogo3.gif","http://www.baidu.com")   
+    return msgHeader+msgbody
 
 TEXT_MSG_TPL = \
 u"""
@@ -249,7 +265,39 @@ def response_text_msg(msg, content):
         str(int(time.time())), content)
     return s
 
+def parse_msg(rawmsgstr):
+    root = ET.fromstring(rawmsgstr)
+    msg = {}
+    for child in root:
+        msg[child.tag] = child.text
+    return msg
 
+def is_text_msg(msg):
+    return msg['MsgType'] == 'text'
+NEWS_MSG_HEADER_TPL = \
+u"""
+<xml>
+<ToUserName><![CDATA[%s]]</ToUserName>
+<FromUserName><![CDATA[%s]]</FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<Content><![CDATA[]]></Content>
+<ArticleCount>%d</ArticleCount>
+<Articles>
+"""
+
+NEWS_MSG_TALL = \
+u"""
+</Articles>
+<FuncFlag>1</FuncFlag>
+</xml>
+"""
+
+def response_news_msg(recvmsg):
+    msgHeader = NEWS_MSG_HEADER_TPL % (recvmsg['FromUserName'],recvmsg['ToUserName'],str(int(time.time())),)
+    msg = ''
+    msg += msgHeader
+    return msg
 
 def main():
 	tornado.options.parse_command_line()
