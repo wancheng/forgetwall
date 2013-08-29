@@ -273,10 +273,11 @@ def help_info(msg):
     newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),5)
     item1 = NEWSITEM_TPL % ("点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
     item2 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
-    item3 = NEWSITEM_TPL % ("","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
-    item4 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
-    item5 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
-    return newshead+item1+item2+item3+item4+item5+NEWSFOOT_TPL
+    item3 = NEWSITEM_TPL % ("成就卓越 卓越成就","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item4 = NEWSITEM_TPL % ("无限成长 成长无限","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item5 = NEWSITEM_TPL % ("至真信赖 信赖至真","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item6 = NEWSITEM_TPL % ("欢迎加入我们","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    return newshead+item1+item2+item3+item4+item5+item6+NEWSFOOT_TPL
 
 TEXT_MSG_TPL = \
 u"""
