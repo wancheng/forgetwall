@@ -269,8 +269,8 @@ u"""
 """
 def help_info(msg):
     newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),2)
-    item1 = NEWSITEM_TPL % ("","","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
-    item2 = NEWSITEM_TPL % ("","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item1 = NEWSITEM_TPL % ("","点击进入...","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
+    item2 = NEWSITEM_TPL % ("","当创新理念成为传统风范","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
     return newshead+item1+item2+NEWSFOOT_TPL
 
 TEXT_MSG_TPL = \
