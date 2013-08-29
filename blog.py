@@ -13,6 +13,9 @@ import unicodedata
 import logging
 import hashlib
 import xml.etree.ElementTree as ET
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 from tornado.options import define, options
 
@@ -197,7 +200,6 @@ class WeixinHandler(BaseHandler):
 					self.write(help_info(msg))
 				else:
 					# books = search_book(content)
-					# rmsg = response_news_msg(msg, books)
 					# return rmsg
 					self.write(response_text_msg(msg,"I'm sorry!"))
 		self.write('message processing fail')
@@ -268,10 +270,13 @@ u"""
 </xml> 
 """
 def help_info(msg):
-    newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),2)
-    item1 = NEWSITEM_TPL % ("","点击进入...","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
-    item2 = NEWSITEM_TPL % ("","当创新理念成为传统风范","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
-    return newshead+item1+item2+NEWSFOOT_TPL
+    newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),5)
+    item1 = NEWSITEM_TPL % ("点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
+    item2 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item3 = NEWSITEM_TPL % ("","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item4 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    item5 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    return newshead+item1+item2+item3+item4+item5+NEWSFOOT_TPL
 
 TEXT_MSG_TPL = \
 u"""
@@ -299,30 +304,6 @@ def parse_msg(rawmsgstr):
 
 def is_text_msg(msg):
     return msg['MsgType'] == 'text'
-NEWS_MSG_HEADER_TPL = \
-u"""
-<xml>
-<ToUserName><![CDATA[%s]]</ToUserName>
-<FromUserName><![CDATA[%s]]</FromUserName>
-<CreateTime>%s</CreateTime>
-<MsgType><![CDATA[news]]></MsgType>
-<Content><![CDATA[]]></Content>
-<ArticleCount>%d</ArticleCount>
-<Articles>
-"""
-
-NEWS_MSG_TALL = \
-u"""
-</Articles>
-<FuncFlag>1</FuncFlag>
-</xml>
-"""
-
-def response_news_msg(recvmsg):
-    msgHeader = NEWS_MSG_HEADER_TPL % (recvmsg['FromUserName'],recvmsg['ToUserName'],str(int(time.time())),)
-    msg = ''
-    msg += msgHeader
-    return msg
 
 def main():
 	tornado.options.parse_command_line()
