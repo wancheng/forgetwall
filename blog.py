@@ -241,27 +241,37 @@ u"""
 </Articles>
 </xml>
 """
-HELPINFO_TPL = \
+NEWSHEAD_TPL = \
 u"""
 <xml>
 <ToUserName><![CDATA[%s]]></ToUserName>
 <FromUserName><![CDATA[%s]]></FromUserName>
 <CreateTime>%s</CreateTime>
 <MsgType><![CDATA[news]]></MsgType>
-<ArticleCount>1</ArticleCount>
+<ArticleCount>%d</ArticleCount>
 <Articles>
+"""
+
+NEWSITEM_TPL = \
+u"""
 <item>
 <Title><![CDATA[%s]]></Title> 
 <Description><![CDATA[%s]]></Description>
 <PicUrl><![CDATA[%s]]></PicUrl>
 <Url><![CDATA[%s]]></Url>
 </item>
+"""
+
+NEWSFOOT_TPL = \
+u"""
 </Articles>
 </xml> 
 """
 def help_info(msg):
-    helpinfo = HELPINFO_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),"help","some help","http://www.baidu.com/img/baidu_jgylogo3.gif","http://www.baidu.com")   
-    return helpinfo
+    newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),2)
+    item1 = NEWSITEM_TPL % ("","","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
+    item2 = NEWSITEM_TPL % ("","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
+    return newshead+item1+item2+NEWSFOOT_TPL
 
 TEXT_MSG_TPL = \
 u"""
