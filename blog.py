@@ -37,6 +37,7 @@ class Application(tornado.web.Application):
 			(r"/auth/login", AuthLoginHandler),
 			(r"/auth/logout", AuthLogoutHandler),
 			(r"/registe",RegisteHandler),
+			(r"/bh",BhHandler),
 			(r"/weixin",WeixinHandler)
 		]
 		settings = dict(
@@ -174,6 +175,11 @@ class AuthLoginHandler(BaseHandler):
 			self.set_secure_cookie("www_forgetwall_com_user", str(author_id))
 			self.redirect(self.get_argument("next", "/"))
 
+class BhHandler(BaseHandler):
+	def get(self):
+		page = self.get_argument("page","1")
+		self.render('bh/'+page+'.html')
+
 class WeixinHandler(BaseHandler):
 	def get(self):
 		signature = self.get_argument("signature")
@@ -270,8 +276,8 @@ u"""
 </xml> 
 """
 def help_info(msg):
-    newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),5)
-    item1 = NEWSITEM_TPL % ("点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.baidu.com")   
+    newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),6)
+    item1 = NEWSITEM_TPL % ("点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.forgetwall.com/bh?page=1")   
     item2 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","http://www.baidu.com")
     item3 = NEWSITEM_TPL % ("成就卓越 卓越成就","","http://www.forgetwall.com/static/img/3.png","http://www.baidu.com")
     item4 = NEWSITEM_TPL % ("无限成长 成长无限","","http://www.forgetwall.com/static/img/4.png","http://www.baidu.com")
