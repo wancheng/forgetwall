@@ -41,7 +41,8 @@ CREATE TABLE authors (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(100) NOT NULL,
-	password VARCHAR(18) NOT NULL
+	password VARCHAR(18) NOT NULL,
+	isadmin int
 );
 DROP TABLE IF EXISTS maps;
 CREATE TABLE maps (
@@ -50,3 +51,26 @@ CREATE TABLE maps (
 	mvalue VARCHAR(20) NOT NULL
 );
 insert into maps (mkey,mvalue) values ("registe","on");
+DROP TABLE IF EXISTS member;
+CREATE TABLE member (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	weixinid VARCHAR(20) NOT NULL UNIQUE,
+	employeeid VARCHAR(20) ,
+	name VARCHAR(20),
+	password VARCHAR(20),
+	state int,
+	realName VARCHAR(20)
+);
+DROP TABLE EXISTS content;
+CREATE TABLE content (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	type int,
+	sort int,
+	title VARCHAR(512) ,
+	description VARCHAR(512),
+	picurl VARCHAR(512),
+	url VARCHAR(512),
+	content MEDIUMTEXT
+);
+
+
