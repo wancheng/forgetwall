@@ -40,6 +40,3 @@ class ComposeHandler(BaseHandler):
                 "published) VALUES (%s,%s,%s,%s,%s,UTC_TIMESTAMP())",
                 self.current_user.id, title, slug, text, html)
         self.redirect("/entry/" + slug)
-
-
-

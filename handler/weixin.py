@@ -25,13 +25,13 @@ class WeixinHandler(BaseHandler):
 			if user_subscribe_event(msg):
 				# save user's infomation
 				weixinid = msg["FromUserName"]
-				member = self.db.get("SELECT * FROM member WHERE id = %s",weixinid)
+				weixin_user = self.db.get("SELECT * FROM weixin_user WHERE id = %s",weixinid)
 				if not member:
 					self.db.execute(
-						"INSERT INTO member (weixinid,state) values (%s,%d)",weixinid,1)
+						"INSERT INTO weixin_user (weixinid,state) values (%s,%d)",weixinid,1)
 				else:
 					self.db.execute(
-							"UPDATE member SET state = 1"
+							"UPDATE weixin_user SET state = 1"
 							"WHERE weixinid = %s",weixinid)
 
 				helpinfo = help_info(msg)
@@ -39,7 +39,7 @@ class WeixinHandler(BaseHandler):
 				self.write(help_info(msg))
 			elif user_unsubscribe_event(msg):
 				self.db.execute(
-						"UPDATE member SET state = 10"
+						"UPDATE weixin_user SET state = 10"
 						"WHERE weixinid = %s",weixinid)
 			elif is_text_msg(msg):
 				content = msg['Content']

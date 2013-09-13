@@ -1,6 +1,8 @@
 *.py[cod]
 *~
 
+# vi tmpfile
+*.swp
 # C extensions
 *.so
 

@@ -52,14 +52,21 @@ CREATE TABLE maps (
 );
 insert into maps (mkey,mvalue) values ("registe","on");
 DROP TABLE IF EXISTS member;
-CREATE TABLE member (
+CREATE TABLE employee (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	employeeid VARCHAR(20) NOT NULL UNIQUE,
+	sex INT,
+	ename VARHAR(20),
+	efname VARCHAR(20),
+	cname VARCHAR(20),
+	cfname VARCHAR(20)
+);
+DROP TABLE IF EXISTS weixin_user;
+CREATE TABLE weixin_user(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	weixinid VARCHAR(20) NOT NULL UNIQUE,
-	employeeid VARCHAR(20) ,
-	name VARCHAR(20),
-	password VARCHAR(20),
-	state int,
-	realName VARCHAR(20)
+	employeeid VARCHAR(20),
+	state int --0 unregisted; 1 registed;
 );
 DROP TABLE EXISTS content;
 CREATE TABLE content (
@@ -73,4 +80,10 @@ CREATE TABLE content (
 	content MEDIUMTEXT
 );
 
-
+/*
+alter table member add column sex INT;
+alter table member add column ename VARCHAR(20);
+alter table member add column efname VARCHAR(20);
+alter table member add column cname VARCHAR(20);
+alter table member add column cfname VARCHAR(20);
+*/
