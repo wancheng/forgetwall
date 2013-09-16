@@ -14,7 +14,7 @@ class Binding(BaseHandler):
 		print ename
 		employees = self.db.query("SELECT * FROM employee WHERE employeeid = %s AND ename = %s",employeeid,ename)
 		if not employees:
-			self.render("weixin/info.html",info="error!",css="error")
+			self.render("weixin/info.html",info="error!",css="danger")
 		else:
 			self.db.execute("UPDATE weixin_user SET employeeid = %s WHERE weixinid = %s",employeeid,weixinid)
 			self.render("weixin/info.html",info="success!",css="success")
