@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-#coding=utf-8
+# -*- coding: utf-8 -*-
 
 import hashlib
 import time
 import xml.etree.ElementTree as ET
-from base import BaseHandler
+import logging
+from handler.base import BaseHandler
 
 class WeixinHandler(BaseHandler):
 	def get(self):
@@ -13,6 +14,7 @@ class WeixinHandler(BaseHandler):
 		nonce = self.get_argument("nonce")
 		echostr = self.get_argument("echostr")
 		if verification(self) and echostr is not None:
+			logging.info(echostr)
 			self.write(echostr)
 		else:
 			self.write("access fail")
@@ -25,14 +27,16 @@ class WeixinHandler(BaseHandler):
 			if user_subscribe_event(msg):
 				# save user's infomation
 				weixinid = msg["FromUserName"]
-				weixin_user = self.db.get("SELECT * FROM weixin_user WHERE id = %s",weixinid)
-				if not member:
+				sql = "SELECT weixinid,employeeid,state  FROM weixin_user WHERE weixinid = %s" % weixinid
+				print sql
+				weixin_user = self.db.get(sql)
+				print weixin_user['weixinid']
+				if not weixin_user:
 					self.db.execute(
-						"INSERT INTO weixin_user (weixinid,state) values (%s,%d)",weixinid,1)
+						"INSERT INTO weixin_user (weixinid,state) values (%s,%s)",weixinid,1)
 				else:
-					self.db.execute(
-							"UPDATE weixin_user SET state = 1"
-							"WHERE weixinid = %s",weixinid)
+					sql = "UPDATE weixin_user SET state = 1 WHERE weixinid = %s" % weixinid
+					self.db.execute(sql)
 
 				helpinfo = help_info(msg)
 				logging.error("help:\n"+helpinfo)
@@ -109,12 +113,12 @@ u"""
 """
 def help_info(msg):
     newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),6)
-    item1 = NEWSITEM_TPL % ("点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.forgetwall.com/bh?page=1")   
-    item2 = NEWSITEM_TPL % ("当创新理念成为传统风范","","http://www.forgetwall.com/static/img/a.png","hhttp://www.forgetwall.com/bh?page=1")
-    item3 = NEWSITEM_TPL % ("成就卓越 卓越成就","","http://www.forgetwall.com/static/img/3.png","hhttp://www.forgetwall.com/bh?page=1")
-    item4 = NEWSITEM_TPL % ("无限成长 成长无限","","http://www.forgetwall.com/static/img/4.png","http://www.forgetwall.com/bh?page=1")
-    item5 = NEWSITEM_TPL % ("至真信赖 信赖至真","","http://www.forgetwall.com/static/img/5.png","http://www.forgetwall.com/bh?page=1")
-    item6 = NEWSITEM_TPL % ("欢迎加入我们","","http://www.forgetwall.com/static/img/a.png","http://www.forgetwall.com/bh?page=1")
+    item1 = NEWSITEM_TPL % (u"点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.forgetwall.com/bh?page=1")   
+    item2 = NEWSITEM_TPL % (u"回复\"b\"进行员工身份绑定","","http://www.forgetwall.com/static/img/a.png","hhttp://www.forgetwall.com/wx/page?page=1")
+    item3 = NEWSITEM_TPL % (u"成就卓越 卓越成就","","http://www.forgetwall.com/static/img/3.png","hhttp://www.forgetwall.com/bh?page=1")
+    item4 = NEWSITEM_TPL % (u"无限成长 成长无限","","http://www.forgetwall.com/static/img/4.png","http://www.forgetwall.com/bh?page=1")
+    item5 = NEWSITEM_TPL % (u"至真信赖 信赖至真","","http://www.forgetwall.com/static/img/5.png","http://www.forgetwall.com/bh?page=1")
+    item6 = NEWSITEM_TPL % (u"欢迎加入我们","","http://www.forgetwall.com/static/img/a.png","http://www.forgetwall.com/bh?page=1")
     return newshead+item1+item2+item3+item4+item5+item6+NEWSFOOT_TPL
 
 TEXT_MSG_TPL = \

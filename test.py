@@ -16,6 +16,7 @@ def open_excel(file="file.xls"):
 		print str(e)
 
 def excel_table_byindex(file="file.xls",colnameindex=0,by_index=0):
+
 	conn = MySQLdb.connect(host='localhost',user='root',passwd='rootroot',db='blog')
 	cursor = conn.cursor()
 	# cursor.execute""()
@@ -23,10 +24,9 @@ def excel_table_byindex(file="file.xls",colnameindex=0,by_index=0):
 	table = data.sheets()[by_index]
 	nrows = table.nrows
 	ncols = table.ncols
-	print("==nrows:"+str(nrows))
-	print("==ncols:"+str(ncols))
 	colnames = table.row_values(colnameindex)
 
+	tables = [];
 	for rownum in range(1,nrows):
 		row = table.row_values(rownum)
 		if row:
@@ -41,11 +41,16 @@ def excel_table_byindex(file="file.xls",colnameindex=0,by_index=0):
 					app.append(s)
 				else:
 					app.append(row[i])
-			print "app length:",len(app)
+			tables.append(app)
 			sql="INSERT INTO employee (employeeid,sex,ename,efname,cname) VALUES ('%s',%d,'%s','%s','%s')"%(int(app[0]),int(app[1]),str(app[2]),str(app[3]),str(app[4]))
 			print sql
-			cursor.execute(sql)
+			try:
+				cursor.execute(sql)
+			except Exception,e:
+				print e
 	cursor.close()
+	conn.commit()
+	conn.close()
 
 def main():
 	excel_table_byindex(file="dao.xlsx")

@@ -6,8 +6,9 @@ from handler.compose import ComposeHandler
 from handler.registe import RegisteHandler
 from handler.authlogin import AuthLoginHandler
 from handler.authlogout import AuthLogoutHandler
+from handler.weixin.binding import Binding
 from handler.bh import BhHandler
-from handler.weixin import WeixinHandler
+from handler.weixin.weixin import WeixinHandler
 import handler.admin.auth
 import handler.admin.wx
 
@@ -24,6 +25,7 @@ routes = [
 	(r"/admin/login",handler.admin.auth.LoginHandler),
 	(r"/admin/index",handler.admin.auth.IndexHandler),
 	(r"/admin/wx_index",handler.admin.wx.IndexHandler),
+	(r"/weixin/binding",Binding),
 	(r"/weixin",WeixinHandler)
 ]
 
