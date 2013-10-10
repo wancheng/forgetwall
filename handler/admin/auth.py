@@ -5,7 +5,7 @@ class LoginHandler(BaseHandler):
 		if self.current_user:
 			user_id = self.get_secure_cookie("www_forgetwall_come_user")
 			if not user_id:
-				self.render("admin/login.html")
+				self.render("admin/wx/login.html")
 			else:
 				user = self.db.get("SELECT * FROM authors WHERE id = %s and isadmin = 1", int(user_id))
 				if not user:

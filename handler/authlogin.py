@@ -1,4 +1,5 @@
 from base import BaseHandler
+import logging
 
 # class AuthLoginHandler(BaseHandler, tornado.auth.GoogleMixin):
 class AuthLoginHandler(BaseHandler):
@@ -11,6 +12,7 @@ class AuthLoginHandler(BaseHandler):
 	def post(self):
 		name = self.get_argument("name")
 		password = self.get_argument("password")
+		logging.error("name: %s, password: %s" % (name,password))
 		author = self.db.get("SELECT * FROM authors WHERE name = %s AND password = %s",
 			name,password)
 		if not author:

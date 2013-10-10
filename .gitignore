@@ -1,6 +1,9 @@
 *.py[cod]
 *~
 
+# setting file
+setting.py
+
 # vi tmpfile
 *.swp
 # C extensions

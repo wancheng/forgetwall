@@ -1,5 +1,6 @@
 import tornado.auth
 import unicodedata
+import re
 
 from base import BaseHandler
 

@@ -9,3 +9,4 @@ class BaseHandler(tornado.web.RequestHandler):
         user_id = self.get_secure_cookie("www_forgetwall_com_user")
         if not user_id: return None
         return self.db.get("SELECT * FROM authors WHERE id = %s", int(user_id))
+

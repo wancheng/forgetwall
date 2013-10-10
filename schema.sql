@@ -79,6 +79,16 @@ CREATE TABLE content (
 	url VARCHAR(512),
 	content MEDIUMTEXT
 );
+DROP TABLE EXISTS job;
+CREATE TABLE job (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	title VARCHAR(256),
+	city VARCHAR(32),
+	department VARCHAR(128),
+	ability MEDIUMTEXT,
+	education VARCHAR(256),
+	experience MEDIUMTEXT
+);
 
 /*
 alter table member add column sex INT;
