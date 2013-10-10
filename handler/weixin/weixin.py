@@ -116,7 +116,7 @@ def help_info(msg):
     newshead = NEWSHEAD_TPL % (msg['FromUserName'],msg['ToUserName'],str(int(time.time())),6)
     item1 = NEWSITEM_TPL % (u"点击进入...","t","http://www.forgetwall.com/static/img/index.png","http://www.forgetwall.com/bh?page=1")   
     item2 = NEWSITEM_TPL % (u"员工身份绑定","","http://www.forgetwall.com/static/img/a.png","http://www.forgetwall.com/weixin/binding?weixinid=%s" % msg['FromUserName'])
-    item3 = NEWSITEM_TPL % (u"浏览最新职位","","http://www.forgetwall.com/static/img/3.png","hhttp://www.forgetwall.com/bh?page=1")
+    item3 = NEWSITEM_TPL % (u"最新职位","","http://www.forgetwall.com/static/img/3.png","hhttp://www.forgetwall.com/weixin/jobs.htm?method=list")
     item4 = NEWSITEM_TPL % (u"无限成长 成长无限","","http://www.forgetwall.com/static/img/4.png","http://www.forgetwall.com/bh?page=1")
     item5 = NEWSITEM_TPL % (u"至真信赖 信赖至真","","http://www.forgetwall.com/static/img/5.png","http://www.forgetwall.com/bh?page=1")
     item6 = NEWSITEM_TPL % (u"欢迎加入我们","","http://www.forgetwall.com/static/img/a.png","http://www.forgetwall.com/bh?page=1")

@@ -1,0 +1,38 @@
+{% extends "base_bootstrap.html" %}
+{% block body %}
+<div class="panel panel-defalut">
+	<div class="panel-heading">
+		职位列表 TOP10
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>职位</th>
+				<th>城市</th>
+				<th>部门</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for job in jobs %}
+			<tr>
+				<td>
+					{{ job.title }}
+				</td>
+				<td>{{ job.city }}</td>
+				<td>{{ job.department }}</td>
+				<td>
+					<a href="/weixin/job.html?id={{ job.id }}">
+						查看
+					</a>
+					<a href="/weixin/job.html?id={{ job.id }}">
+						转发
+					</a>
+					<a href="/weixin/job.html?id={{ job.id }}">
+						推荐	
+					</a>
+				</td>
+			{% end %}
+</div>
+
+{% end %}

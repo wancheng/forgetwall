@@ -30,7 +30,7 @@ routes = [
 	("/[a-z_/]*.html",handler.dispatcher.DispatcherHandler),
 	("/admin/wx/[a-z]*.htm",handler.admin.wx.WXHandler),
 	(r"/weixin/binding",Binding),
-	(r"/weixin/job.query",handler.weixin.job.JobHandler),
+	("/weixin/[a-z]*.htm",handler.weixin.job.JobHandler),
 	(r"/weixin",WeixinHandler)
 ]
 
