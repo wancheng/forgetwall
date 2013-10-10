@@ -37,4 +37,3 @@ class WXHandler(BaseHandler):
 		sql = "INSERT INTO job (title,city,department,ability,education,experience) VALUES ( '%s','%s','%s','%s','%s','%s' )" % (self.get_argument("title"),self.get_argument("city"),self.get_argument("department"),self.get_argument("ability"),self.get_argument("education"),self.get_argument("experience"))
 		logging.error(sql)
 		self.db.execute(sql)
-		self.write("success")

@@ -28,7 +28,6 @@ routes = [
 	#(r"/admin/index",handler.admin.auth.IndexHandler),
 	#(r"/admin/wx_index",handler.admin.wx.IndexHandler),
 	("/[a-z_/]*.html",handler.dispatcher.DispatcherHandler),
-	("/admin/wx/[a-z]*.do",handler.admin.wx.WXHandler),
 	("/admin/wx/[a-z]*.htm",handler.admin.wx.WXHandler),
 	(r"/weixin/binding",Binding),
 	(r"/weixin/job.query",handler.weixin.job.JobHandler),
