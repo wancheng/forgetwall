@@ -22,14 +22,8 @@
 				<td>{{ job.city }}</td>
 				<td>{{ job.department }}</td>
 				<td>
-					<a href="/weixin/job.html?id={{ job.id }}">
+					<a href="/weixin/job.htm?method=info&id={{ job.id }}">
 						查看
-					</a>
-					<a href="/weixin/job.html?id={{ job.id }}">
-						转发
-					</a>
-					<a href="/weixin/job.html?id={{ job.id }}">
-						推荐	
 					</a>
 				</td>
 			{% end %}
