@@ -1,5 +1,19 @@
 {% extends "base_bootstrap.html" %}
 {% block body %}
-{{ job.title }}<br>
-{{ job.department }}
+<div class="alert alert-info">
+	<strong>职位：</strong>{{ job.title }}<br>
+	<strong>城市：</strong>{{ job.city }}<br> 
+	<strong>部门：</strong>{{ job.department }}<br>
+	<strong>工作职责：</strong><br>
+	{{ job.ability }}<br>
+	<strong>所需教育背景：</strong><br>
+	{{ job.education }}<br>
+	<strong>所需工作经验：</strong><br>
+	{{ job.experience }}
+	<br><br>
+	<strong>推荐候选人：</strong><br>
+	请以附件的形式回复，附件命名：{{ job.id }}_XXX_.doc<br>
+	XXX为候选人姓名
+
 {% end %}
+</div>
