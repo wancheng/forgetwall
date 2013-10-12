@@ -12,8 +12,9 @@
 	{{ job.experience }}
 	<br><br>
 	<strong>推荐候选人：</strong><br>
-	请以附件的形式回复，附件命名：{{ job.id }}_XXX_.doc<br>
-	XXX为候选人姓名
-
+	<form>
+		<input type="hidden" />
+		上传简历：<input type="file" id="resume" name="resume" />
+	</form>
 {% end %}
 </div>
