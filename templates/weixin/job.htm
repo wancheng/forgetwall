@@ -12,9 +12,11 @@
 	{{ job.experience }}
 	<br><br>
 	<strong>推荐候选人：</strong><br>
-	<form>
-		<input type="hidden" />
-		上传简历：<input type="file" id="resume" name="resume" />
+	<form method="post" action="/weixin/job.htm?method=resume">
+		<input type="hidden" name="weixinid" value="{{ weixinid }}"/>
+		简历链接（推荐使用百度网盘创建共享链接）：<br>
+		<input type="text" id="resume" name="resume" />
+		<input type="submit"/>
 	</form>
 {% end %}
 </div>
