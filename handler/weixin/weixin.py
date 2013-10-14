@@ -29,12 +29,13 @@ class WeixinHandler(BaseHandler):
 				weixinid = msg["FromUserName"]
 				sql = "SELECT weixinid,employeeid,state  FROM weixin_user WHERE weixinid = '%s'" % weixinid
 				logging.error(sql)
-				weixin_user = self.db.get(sql)
-				print weixin_user['weixinid']
+				weixin_user = self.db.query(sql)
 				if not weixin_user:
+					logging.info("new user")
 					self.db.execute(
 						"INSERT INTO weixin_user (weixinid,state) values (%s,%s)",weixinid,1)
 				else:
+					logging.info("old friend")
 					sql = "UPDATE weixin_user SET state = 1 WHERE weixinid = %s" % weixinid
 					self.db.execute(sql)
 
