@@ -18,7 +18,7 @@ class JobHandler(BaseHandler):
 		weixinid = self.get_argument("weixinid")
 		resume = self.get_argument("resume")
 		jobid = self.get_argument("jobid")
-		sql = "INSERT INTO job_candidate (jobid,weixinid,resume) VALUES (%s,'%s','%s')" % (jobid,weixinid,resume)
+		sql = "INSERT INTO job_resume(jobid,weixinid,resume) VALUES (%s,'%s','%s')" % (jobid,weixinid,resume)
 		logging.error(sql)
 		self.db.execute(sql)
 		self.write("success")

@@ -15,7 +15,7 @@ class WXHandler(BaseHandler):
 			myvar = self.db.query("SELECT * FROM job order by id")
 		elif method == "info":
 			id = self.get_argument("id")
-			sql = "select employee.cfname,employee.cname,job_candidate.resume from employee,job_candidate,job,weixin_user where job_candidate.jobid=job.id and job_candidate.weixinid=weixin_user.weixinid and weixin_user.employeeid=employee.employeeid and job.id = %s" % int(id)
+			sql = "select employee.cfname,employee.cname,job_resume.resume from employee,job_resume,job,weixin_user where job_resume.jobid=job.id and job_resume.weixinid=weixin_user.weixinid and weixin_user.employeeid=employee.employeeid and job.id = %s" % int(id)
 			logging.error(sql)
 			myvar = self.db.get("SELECT * FROM job WHERE id = %s",int(id))
 			myvar.resumes = self.db.get(sql)
