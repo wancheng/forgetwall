@@ -30,8 +30,25 @@
 				<strong>工作经验：</strong></br>
 				{{myvar.experience}}</br>
 				<strong>推荐：</strong></br>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>推荐员工</th>
+							<th>简历链接</th>
+						</tr>
+					</thead>
+					<tbody>
 				{% for resume in myvar.resumes %}
-					{{resume}}<br>
+				<tr>
+					<td>
+						{{resume.cfname}} {{resume.cname}}
+					</td>
+					<td>
+						{{resume.resume}}
+					</td>
+				</tr>
+				</tbody>
+			</table>
 				{% end %}
 			</div>
 		</div><!--/span-->
