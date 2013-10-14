@@ -89,7 +89,13 @@ CREATE TABLE job (
 	education VARCHAR(256),
 	experience MEDIUMTEXT
 );
-
+DROP TABLE EXISTS job_candidate;
+CREATE TABLE job_candidate(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	jobid int,
+	weixinid VARCHAR(20),
+	link VARCHAR(512)
+);
 /*
 alter table member add column sex INT;
 alter table member add column ename VARCHAR(20);

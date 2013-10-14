@@ -14,6 +14,7 @@
 	<strong>推荐候选人：</strong><br>
 	<form method="post" action="/weixin/job.htm?method=resume">
 		<input type="hidden" name="weixinid" value="{{ weixinid }}"/>
+		<input type="hidden" name="jobid" value="{{job.id}}"/>
 		简历链接（推荐使用百度网盘创建共享链接）：<br>
 		<input type="text" id="resume" name="resume" />
 		<input type="submit"/>

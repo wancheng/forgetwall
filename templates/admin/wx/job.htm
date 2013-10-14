@@ -15,51 +15,24 @@
 	<div class="row-fluid sortable">		
 		<div class="box span12">
 			<div class="box-header well" data-original-title>
-				<h2><i class="icon-edit"></i> 职位管理</h2>
+				<h2><i class="icon-book"></i> 职位信息</h2>
 				<div class="box-icon">
-					<a href="#" class="btn btn-setting btn-round"><i class="icon-plus-sign"></i></a>
+					<a href="jobs.htm?method=list" class="btn btn-round"><i class="icon-arrow-left"></i></a>
 				</div>
 			</div>
 			<div class="box-content">
-				<table class="table table-striped table-bordered bootstrap-datatable datatable">
-					<thead>
-						<tr>
-							<th>JOB TITLE</th>
-							<th>CITY</th>
-							<th>DEPARTMENT</th>
-							<th>STATUS</th>
-							<th></th>
-						</tr>
-					</thead>   
-					<tbody>
-					{% for job in myvar%}
-					<tr>
-						<td>{{ job.title }}</td>
-						<td class="center">{{ job.city }}</td>
-						<td class="center">{{ job.department }}</td>
-						<td class="center">
-							<span class="label label-success">Active</span>
-						</td>
-						<td class="center">
-							<a class="btn btn-success" href="job.htm?method=info&id={{ job.id }}">
-								<i class="icon-zoom-in icon-white"></i>  
-								View                                            
-							</a>
-							<!--
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-										Edit                                            
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-										Delete
-									</a>
-									-->
-						</td>
-					</tr>
-					{% end %}
-					</tbody>
-				</table>            
+				<strong>职位：</strong>{{ myvar.title }}</br>
+				<strong>城市：</strong>{{ myvar.city }} </br>
+				<strong>部门：</strong>{{ myvar.department }} </br>
+				<strong>学历：</strong>{{myvar.education}}</br>
+				<strong>工作职责：</strong></br>
+				{{myvar.ability}}</br>
+				<strong>工作经验：</strong></br>
+				{{myvar.experience}}</br>
+				<strong>推荐：</strong></br>
+				{% for resume in myvar.resumes %}
+					{{resume}}<br>
+				{% end %}
 			</div>
 		</div><!--/span-->
 	</div><!--/row-->

@@ -96,7 +96,7 @@
 		</div>
 	</div>
 	<!-- topbar ends -->
-		<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row-fluid">
 				
 			<!-- left menu starts -->
@@ -104,9 +104,12 @@
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
 						<li class="nav-header hidden-tablet">微门户</li>
+						<!--
 						<li><a class="ajax-link" href="wx_index"><i class="icon-th-large"></i><span class="hidden-tablet"> 首页幻灯片</span></a></li>
 						<li><a class="ajax-link" href="ui.html"><i class="icon-user"></i><span class="hidden-tablet"> 微信用户</span></a></li>
-						<li><a class="ajax-link" href="jobs.html"><i class="icon-edit"></i><span class="hidden-tablet">职位管理</span></a></li>
+						-->
+						<li><a class="ajax-link" href="jobs.htm"><i class="icon-edit"></i><span class="hidden-tablet">职位管理</span></a></li>
+						<!--
 						<li><a class="ajax-link" href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Charts</span></a></li>
 						<li><a class="ajax-link" href="typography.html"><i class="icon-font"></i><span class="hidden-tablet"> Typography</span></a></li>
 						<li><a class="ajax-link" href="gallery.html"><i class="icon-picture"></i><span class="hidden-tablet"> Gallery</span></a></li>
@@ -119,8 +122,9 @@
 						<li><a class="ajax-link" href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> Icons</span></a></li>
 						<li><a href="error.html"><i class="icon-ban-circle"></i><span class="hidden-tablet"> Error Page</span></a></li>
 						<li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> Login Page</span></a></li>
+						-->
 					</ul>
-					<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>
+					<!--<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>-->
 				</div><!--/.well -->
 			</div><!--/span-->
 			<!-- left menu ends -->
@@ -132,7 +136,16 @@
 				</div>
 			</noscript>
 	
-      {% block body %}{% end %}
+			{% block body %}{% end %}
+
+<footer>
+	<!--
+<p class="pull-left">&copy; <a href="http://usman.it" target="_blank">Muhammad Usman</a> 2012</p>
+<p class="pull-right">Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a></p>
+-->
+</footer>
+
+	</div><!--/.fluid-container-->
        	<!-- external javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
