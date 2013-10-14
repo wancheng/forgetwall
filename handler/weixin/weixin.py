@@ -28,7 +28,7 @@ class WeixinHandler(BaseHandler):
 				# save user's infomation
 				weixinid = msg["FromUserName"]
 				sql = "SELECT weixinid,employeeid,state  FROM weixin_user WHERE weixinid = %s" % weixinid
-				print sql
+				logging.error(sql)
 				weixin_user = self.db.get(sql)
 				print weixin_user['weixinid']
 				if not weixin_user:
