@@ -18,7 +18,7 @@ class WXHandler(BaseHandler):
 			sql = "select employee.cfname,employee.cname,job_resume.resume from employee,job_resume,job,weixin_user where job_resume.jobid=job.id and job_resume.weixinid=weixin_user.weixinid and weixin_user.employeeid=employee.employeeid and job.id = %s" % int(id)
 			logging.error(sql)
 			myvar = self.db.get("SELECT * FROM job WHERE id = %s",int(id))
-			myvar.resumes = self.db.get(sql)
+			myvar.resumes = self.db.query(sql)
 			if not myvar.resumes:
 				myvar.resumes = {}
 			logging.error(myvar)
