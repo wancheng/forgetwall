@@ -27,7 +27,7 @@ class WeixinHandler(BaseHandler):
 			if user_subscribe_event(msg):
 				# save user's infomation
 				weixinid = msg["FromUserName"]
-				sql = "SELECT weixinid,employeeid,state  FROM weixin_user WHERE weixinid = %s" % weixinid
+				sql = "SELECT weixinid,employeeid,state  FROM weixin_user WHERE weixinid = '%s'" % weixinid
 				logging.error(sql)
 				weixin_user = self.db.get(sql)
 				print weixin_user['weixinid']
